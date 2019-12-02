@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'iOS Reminder UI',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: ''),
     );
   }
 }
@@ -67,106 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 15.0,
-                                  child: Icon(
-                                    Icons.calendar_today,
-                                    size: 20.0,
-                                  ),
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white70,
-                                ),
-                                Text(
-                                  '0',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display1
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 12.0),
-                              child: Text(
-                                'Today',
-                                style:
-                                    Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      color: Colors.white10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                    ),
+                  _buildRowCard(
+                      Icons.calendar_today, Colors.blue, '0', 'Today'),
+                  SizedBox(
+                    width: 6.0,
                   ),
-                  SizedBox(width: 6.0,),
-                  Expanded(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 15.0,
-                                  child: Icon(
-                                    Icons.timelapse,
-                                    size: 22.0,
-                                  ),
-                                  backgroundColor: Colors.orange,
-                                  foregroundColor: Colors.white,
-                                ),
-                                Text(
-                                  '0',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display1
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 12.0),
-                              child: Text(
-                                'Scheduled',
-                                style:
-                                Theme.of(context).textTheme.subtitle.copyWith(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      color: Colors.white10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                    ),
-                  ),
+                  _buildRowCard(
+                      Icons.timelapse, Colors.orange, '3', 'Scheduled'),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -201,11 +113,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: const EdgeInsets.only(top: 12.0),
                               child: Text(
                                 'All',
-                                style:
-                                Theme.of(context).textTheme.subtitle.copyWith(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                             )
                           ],
@@ -219,9 +133,144 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+            _buildCustomExpansion(context)
           ],
         ),
       ),
+    );
+  }
+
+  Expanded _buildRowCard(
+      IconData icon, Color color, String text, String title) {
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 15.0,
+                    child: Icon(
+                      icon,
+                      size: 20.0,
+                    ),
+                    backgroundColor: color,
+                    foregroundColor: Colors.white70,
+                  ),
+                  Text(
+                    text,
+                    style: Theme.of(context)
+                        .textTheme
+                        .display1
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.subtitle.copyWith(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              )
+            ],
+          ),
+        ),
+        color: Colors.white10,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+    );
+  }
+
+  Widget _buildCustomExpansion(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Local',
+                style: Theme.of(context)
+                    .textTheme
+                    .title
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 15.0,
+                                  child: Icon(
+                                    Icons.list,
+                                    size: 22.0,
+                                  ),
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Reminders',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white54),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '9',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle
+                                  .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  color: Colors.white10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
